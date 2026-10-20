@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { FormulaProofCard } from './components/FormulaProofCard';
+import { ManpowerSimulationGraph } from './components/ManpowerSimulationGraph';
 import { ManpowerTopDownCalculator } from './components/ManpowerTopDownCalculator';
 import { LineBalancingWorkstation } from './components/LineBalancingWorkstation';
 import { SpeedLineCalculator } from './components/SpeedLineCalculator';
@@ -209,6 +210,15 @@ export default function App() {
               onUpdateUPPH={(val) => setTopDownInput({ ...topDownInput, targetUPPH: val })}
             />
 
+            {/* Manpower Simulation Graph: 4,000 - 7,000 Unit/Day Trending Curve */}
+            <ManpowerSimulationGraph
+              currentDailyOutput={topDownInput.targetOutputDaily}
+              workingHours={topDownInput.workingHoursDaily}
+              currentUPPH={topDownInput.targetUPPH}
+              hourlyWageThb={hourlyWageThb}
+              onSelectOutput={(val) => setTopDownInput({ ...topDownInput, targetOutputDaily: val })}
+            />
+
             {/* Engineering Dimension Interconnections Banner */}
             <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl space-y-4">
               <div className="flex items-center gap-2">
@@ -253,6 +263,28 @@ export default function App() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Tab 2: Dedicated Simulation Tab (4,000 - 7,000 Unit/Day) */}
+        {activeTab === 'simulation' && (
+          <div className="space-y-6">
+            <ManpowerSimulationGraph
+              currentDailyOutput={topDownInput.targetOutputDaily}
+              workingHours={topDownInput.workingHoursDaily}
+              currentUPPH={topDownInput.targetUPPH}
+              hourlyWageThb={hourlyWageThb}
+              onSelectOutput={(val) => setTopDownInput({ ...topDownInput, targetOutputDaily: val })}
+            />
+
+            <FormulaProofCard
+              dailyOutput={topDownInput.targetOutputDaily}
+              workingHours={topDownInput.workingHoursDaily}
+              upph={topDownInput.targetUPPH}
+              onUpdateDailyOutput={(val) => setTopDownInput({ ...topDownInput, targetOutputDaily: val })}
+              onUpdateWorkingHours={(val) => setTopDownInput({ ...topDownInput, workingHoursDaily: val })}
+              onUpdateUPPH={(val) => setTopDownInput({ ...topDownInput, targetUPPH: val })}
+            />
           </div>
         )}
 

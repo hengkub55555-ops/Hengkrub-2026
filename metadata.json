@@ -2,5 +2,7 @@
   "name": "IE Productivity Master",
   "description": "Industrial Engineering Productivity Suite for calculating UPH, Cycle Time, UPPH, Line Balancing, Manpower Request, and Conveyor Speed Line.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

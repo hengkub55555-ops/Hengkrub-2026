@@ -186,6 +186,49 @@ export function ExportReportModal({
                 </tr>
               </tbody>
             </table>
+
+            {/* Simulation Table (4,000 - 7,000 Unit/Day) */}
+            <div className="pt-2">
+              <div className="text-xs font-bold text-slate-800 mb-1">
+                ตารางแนวโน้มกำลังคนจำลอง (Simulation Table: 4,000 - 7,000 Unit/Day):
+              </div>
+              <table className="w-full text-[11px] text-left border border-slate-300 font-mono">
+                <thead className="bg-slate-50 border-b border-slate-300">
+                  <tr>
+                    <th className="p-1.5 font-sans">Daily Target</th>
+                    <th className="p-1.5 text-right">Required MP</th>
+                    <th className="p-1.5 text-right font-sans">Kaizen (+15% UPPH)</th>
+                    <th className="p-1.5 text-right">Target UPH</th>
+                    <th className="p-1.5 text-right">ประมาณการค่าแรง/วัน</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  {[4000, 4500, 5000, 5500, 5600, 6000, 6500, 7000].map((testOutput) => {
+                    const res = calculateTopDownManpower(testOutput, topDown.workingHoursDaily, topDown.targetUPPH);
+                    const kaizenRes = calculateTopDownManpower(testOutput, topDown.workingHoursDaily, topDown.targetUPPH * 1.15);
+                    const uph = testOutput / topDown.workingHoursDaily;
+                    const cost = res.requiredMPRounded * topDown.workingHoursDaily * hourlyWageThb;
+                    const isCurrent = testOutput === topDown.targetOutputDaily;
+
+                    return (
+                      <tr key={testOutput} className={isCurrent ? 'bg-blue-50 font-bold' : ''}>
+                        <td className="p-1.5">
+                          {testOutput.toLocaleString('th-TH')} ชิ้น/วัน {isCurrent ? '(ฐานอ้างอิง)' : ''}
+                        </td>
+                        <td className="p-1.5 text-right text-blue-900 font-bold">
+                          {res.requiredMPRounded.toLocaleString('th-TH')} คน
+                        </td>
+                        <td className="p-1.5 text-right text-emerald-700">
+                          {kaizenRes.requiredMPRounded.toLocaleString('th-TH')} คน (-{res.requiredMPRounded - kaizenRes.requiredMPRounded})
+                        </td>
+                        <td className="p-1.5 text-right">{uph.toFixed(1)}</td>
+                        <td className="p-1.5 text-right">{cost.toLocaleString('th-TH', { maximumFractionDigits: 0 })} ฿</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Section 2: Workstation Balancing Table */}

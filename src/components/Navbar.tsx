@@ -19,6 +19,7 @@ export function Navbar({
 }: Props) {
   const tabs = [
     { id: 'overview', label: 'ภาพรวม & สูตรคำนวณ' },
+    { id: 'simulation', label: 'Simulation (4k–7k)' },
     { id: 'topdown', label: 'Top-Down & UPPH' },
     { id: 'balancing', label: 'Line Balancing (CT)' },
     { id: 'speedline', label: 'Speed Line' },
